@@ -7,10 +7,11 @@ start.time = Sys.time()
 for (m in yearfilelist){
   
  yearfolder=paste0(directory,"/",m) 
- setwd(yearfolder)
  ncdffilelist=shell('dir /b', intern=TRUE)
  for (n in ncdffilelist){
-   ncdffile=paste0(ncdffilelist,"/",n)
+   ncdffile=paste0(yearfolder,"/",n)
+   nwmfile=nc_open(ncdffile,readunlim=FALSE)
+   nwmdata=ncvar_get(nwmfile,start(1,1),count = c(-1,-1))
  }
 }
 
