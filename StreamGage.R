@@ -32,7 +32,8 @@ Gage_list1 = Gage_list[1:4]
 Observations = data.frame(Date=seq.Date(as.Date("2001-11-01"),as.Date("2001-12-01"),by=1))
 for (i in Gage_list1){
   dailyq = readNWISdata(sites=i, service="dv", parameterCd="00060", startDate="2001-11-01", endDate="2001-12-01")
-  df = data.frame(Gage_list1=dailyq$X_00060_00003)
+  df = data.frame(Gage_ID = dailyq$X_00060_00003)
+  names(df)[ncol(df)] = paste0(i)
   Observations = cbind(Observations,df)
 }
 
