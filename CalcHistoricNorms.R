@@ -1,8 +1,6 @@
 fake.df = data.frame(date=seq(as.Date("1993-01-01"),as.Date("1993-01-31"),by=1),
                   gage1=runif(31,min=1,max=10),gage2=runif(31,min=3,max=30))
 
-
-
 #Applies percentile function to all gage/reach records in a data frame
 #Data frame must follow the structure: 1st column = Date, 2nd-nth column = streamflow series
 calc_percentile = function(my.df){
