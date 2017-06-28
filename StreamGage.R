@@ -1,4 +1,4 @@
-require(rgdal)
+library(rgdal)
 
 fgdb = "C:/Users/Spencer/Documents/Research/SI/gis_nwm_v11/nwm_v11.gdb"
 
@@ -8,20 +8,17 @@ fc_list = ogrListLayers(fgdb)
 print(fc_list)
 
 States = readOGR(dsn=fgdb,layer="States")
-NHD = readOGR(dsn=fgdb,layer="channels_nwm_v11_routeLink")
-summary(Gaged_Streams)
-summary(States)
-plot(States)
-lines(Gaged_Streams)
+NHD = readOGR(dsn=fgdb,layer="NHD_US_Sample3")
 
 State_Select = States[which(States$STATE_ABBR=="CA"),]
 plot(State_Select)
 
+library(rgeos)
 stream_subset = NHD[State_Select,]
 stream_subset1 = stream_subset[stream_subset$order_ > 3,]
 lines(stream_subset1)
 
-stream_subset2 = stream_subset1[(stream_subset1$gages != " "|stream_subset1$gages != ""),]
+stream_subset2 = stream_subset1[(stream_subset1$gages != " "),]
 stream_subset2$gages = factor(stream_subset2$gages)
 library(gdata)
 stream_subset2$gages = trim(stream_subset2$gages, recode.factor = TRUE)
@@ -30,10 +27,18 @@ levels(stream_subset2$gages)
 
 library(dataRetrieval)
 Gage_list = as.character(stream_subset2$gages)
-tempdailyq = readNWISdata(sites=Gage_list, service="dv", parameterCd="00060", startDate="1993-01-01", endDate="2016-10-31")
+Gage_list1 = Gage_list[1:4]
+
+Observations = data.frame(Date=seq.Date(as.Date("2001-11-01"),as.Date("2001-12-01"),by=1))
+for (i in Gage_list1){
+  dailyq = readNWISdata(sites=i, service="dv", parameterCd="00060", startDate="2001-11-01", endDate="2001-12-01")
+  df = data.frame(Gage_list1=dailyq$X_00060_00003)
+  Observations = cbind(Observations,df)
+}
+
   
 
 
 
 
-tempdataframe = data.frame(date=tempdailyq$dateTime, flow=tempdailyq$X_00060_00003)
+
