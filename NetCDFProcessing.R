@@ -1,5 +1,6 @@
 library(ncdf4)
-directory='C:/Users/carly/Desktop/SummerInstitute/retro_nwm_v10_streamflow'
+#Set working directory to folder with NetCDF data (stored in different folders for each year)
+directory=getwd()
 setwd(directory)
 yearfilelist=shell('dir /b', intern=TRUE)
 
@@ -8,10 +9,15 @@ for (m in yearfilelist){
   
  yearfolder=paste0(directory,"/",m) 
  ncdffilelist=shell('dir /b', intern=TRUE)
+
  for (n in ncdffilelist){
    ncdffile=paste0(yearfolder,"/",n)
    nwmfile=nc_open(ncdffile,readunlim=FALSE)
-   nwmdata=ncvar_get(nwmfile,start(1,1),count = c(-1,-1))
+   #Get streamflow (in cms)
+   nwmdata=ncvar_get(nwmfile,
+                     varid="streamflow",
+                     count = c(1,-1)) #Number of values to get in each dimension
+   nc_close(nwmfile)
  }
 }
 
