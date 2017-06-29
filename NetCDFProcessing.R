@@ -42,11 +42,11 @@ for (y in dateList){
   meanDailyQ=mean(hourlyQDF$Reach)
   dailyQDF[(dailyQDF$Date==y),"Reach"]=meanDailyQ
 }
-names(dailyQDF)[ncol(dailyQDF)]=reach
+names(dailyQDF)[ncol(dailyQDF)]=comid
 
 end.time = Sys.time()
 time.taken = end.time - start.time
 time.taken
 
-save(dailyQDF,filename=paste0("C:/Users/carly/Desktop/SummerInstitute/",year,".csv"))
+write.csv(dailyQDF,file=paste0("C:/Users/carly/Desktop/SummerInstitute/",year,".csv"),row.names=FALSE)
 
