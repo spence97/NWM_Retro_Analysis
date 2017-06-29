@@ -2,7 +2,7 @@ library(ncdf4)
 #Set working directory to folder with a year of NetCDF data
 directory=getwd()
 #Set reach (From list of subsetted reaches/gages)
-comid=22548483
+comid=22548559
 
 hourList=sprintf("%02d",seq(0,23,by=1))
 year=substr(directory,nchar(directory)-4+1, nchar(directory))
@@ -50,4 +50,3 @@ time.taken
 
 save(dailyQDF,filename=paste0("C:/Users/carly/Desktop/SummerInstitute/",year,".csv"))
 
-save(testdf$test,file = "C:/Users/carly/Desktop/SummerInstitute/COMID.csv")
