@@ -23,7 +23,7 @@ stream_subset = NHD[State_Select,]
 stream_subset = stream_subset[stream_subset$order_ > 3,]
 
 # Subset the above subset to select only the streams in NHD that have a corresponding USGS gage
-stream_subset = stream_subset1[(stream_subset$gages != " "),]
+stream_subset = stream_subset[(stream_subset$gages != " "),]
 stream_subset$gages = factor(stream_subset$gages)
 
 # Clean up the subset of gaged streams to ensure there are no NULL data values
